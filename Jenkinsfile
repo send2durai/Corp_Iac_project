@@ -36,5 +36,12 @@ pipeline {
                 sh 'terraform plan'
            }
         }
+
+        stage("terraform apply") {
+            steps {
+                echo "Going to show us, what is going to be spin up"
+                sh 'terraform apply --auto-approve'
+           }
+        }
     }
 }
