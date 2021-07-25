@@ -1,3 +1,5 @@
+## Output section for the services, we spin up in Amazon Web Services
+
 output "web_public_ip" {
   value = aws_instance.web.public_ip
 }
