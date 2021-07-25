@@ -45,3 +45,33 @@ resource "aws_volume_attachment" "example" {
   volume_id   = aws_ebs_volume.example.id
   instance_id = aws_instance.web.id
 }
+
+resource "aws_vpc" "demo" {
+  cidr_block       = "192.168.0.0/16"
+  instance_tenancy = "default"
+
+  tags = {
+    Name = "demo"
+  }
+}
+
+resource "aws_subnet" "public-subnet" {
+  vpc_id     = aws_vpc.demo.id
+  cidr_block = "192.168.1.0/24"
+
+  tags = {
+    sub_name = var.subnet_name
+    Purpose = var.purpose
+  }
+}
+
+resource "aws_subnet" "private-subnet" {
+  vpc_id     = aws_vpc.demo.id
+  cidr_block = "192.168.2.0/24"
+
+  tags = {
+    sub_name = var.pri_subnet_name
+    Purpose = var.pri_purpose
+  }
+}
+
