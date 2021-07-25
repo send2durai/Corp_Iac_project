@@ -59,3 +59,19 @@ variable "country" {
 variable "division" {
   type = string
 }
+
+variable "subnet_name" {
+  type = string
+}
+
+variable "purpose" {
+  type = string
+}
+
+variable "pri_subnet_name" {
+  type = string
+}
+
+variable "pri_purpose" {
+  type = string
+}
