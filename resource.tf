@@ -1,4 +1,5 @@
 
+# This is the file to update resoruce provisioning for an environments
 
 provider "aws" {
   region     = var.region
