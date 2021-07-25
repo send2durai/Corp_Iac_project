@@ -1,0 +1,16 @@
+
+region        = "ap-south-1"
+name          = "web-1"
+instance_type = "t2.micro"
+ami_id        = "ami-00bf4ae5a7909786c"
+sgp           = ["sg-0fb1052b659369aa8"]
+subnet_id     = "subnet-e9190a81"
+key_name      = "ondot"
+product       = "Storage-application"
+tower         = "CloudOps"
+environment   = "Development"
+mail          = "Thangadurai.murugan@infosys.com"
+owner         = "EMC-storage"
+place         = "Bangalore-offshore"
+country       = "India-KA"
+division      = "SAAS"
