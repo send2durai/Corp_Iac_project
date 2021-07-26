@@ -3,6 +3,8 @@
 
 provider "aws" {
   region     = var.region
+  access_key = var.access_key
+  secret_key = var.secret_key
 }
 
 resource "aws_instance" "web" {
@@ -18,7 +20,7 @@ resource "aws_instance" "web" {
               yum install curl -y
               yum install wget -y
               yum install httpd -y
-              echo "Welcome to my blog is accessible over the internet" > /var/www/html/index.html
+              echo "Welcome to my blog" > /var/www/html/index.html
               yum update -y
               service httpd start
               curl localhost
@@ -52,7 +54,11 @@ resource "aws_vpc" "demo" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "demo"
+    Name        = "demo"
+    Tower       = var.tower
+    Environment = var.environment
+    Mail        = var.mail
+    Owner       = var.owner
   }
 }
 
@@ -61,8 +67,12 @@ resource "aws_subnet" "public-subnet" {
   cidr_block = "192.168.1.0/24"
 
   tags = {
-    sub_name = var.subnet_name
-    Purpose = var.purpose
+    sub_name    = var.subnet_name
+    Purpose     = var.purpose
+    Tower       = var.tower
+    Environment = var.environment
+    Mail        = var.mail
+    Owner       = var.owner
   }
 }
 
@@ -71,8 +81,42 @@ resource "aws_subnet" "private-subnet" {
   cidr_block = "192.168.2.0/24"
 
   tags = {
-    sub_name = var.pri_subnet_name
-    Purpose = var.pri_purpose
+    sub_name    = var.pri_subnet_name
+    Purpose     = var.pri_purpose
+    Tower       = var.tower
+    Environment = var.environment
+    Mail        = var.mail
+    Owner       = var.owner
   }
 }
 
+# Security Group creation
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
+  vpc_id      = aws_vpc.demo.id
+
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.demo.cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "allow_ssh"
+    Tower       = var.tower
+    Environment = var.environment
+    Mail        = var.mail
+    Owner       = var.owner
+
+  }
+}
