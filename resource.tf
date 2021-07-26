@@ -3,8 +3,6 @@
 
 provider "aws" {
   region     = var.region
-  access_key = var.access_key
-  secret_key = var.secret_key
 }
 
 resource "aws_instance" "web" {
@@ -20,7 +18,7 @@ resource "aws_instance" "web" {
               yum install curl -y
               yum install wget -y
               yum install httpd -y
-              echo "Welcome to my blog" > /var/www/html/index.html
+              echo "Welcome to my blog will be accessible via internet" > /var/www/html/index.html
               yum update -y
               service httpd start
               curl localhost
