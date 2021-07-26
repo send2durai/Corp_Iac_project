@@ -1,5 +1,3 @@
-## Declaring the variable section for the services we spin up in AWS
-
 variable "region" {
   type = string
 }
