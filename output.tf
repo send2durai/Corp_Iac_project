@@ -23,3 +23,7 @@ output "pubsubnet" {
 output "privsubnet" {
   value = aws_subnet.private-subnet.cidr_block
 }
+
+output "securitygroup" {
+  value = aws_security_group.allow_ssh.id
+}
