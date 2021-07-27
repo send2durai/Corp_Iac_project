@@ -44,7 +44,7 @@ pipeline {
            }
         }
 
-        stage ("Sending Slack Notifications on Destroying INFRA") {
+        stage ("Sending Slack Notification on Destroying INFRA") {
             steps {
                 echo "Going to destroy the Developement Infrastructure that provisioned in AWS"
                 sh 'sleep 3'
