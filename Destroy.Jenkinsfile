@@ -45,5 +45,10 @@ pipeline {
                 sh 'terraform destroy --auto-approve'
            }
         }
-    }
-}
+        
+        stage("Slack Notification on Infra Destroy")
+            steps {
+                slackSend channel: 'iac-aws-notifications', message: 'Terraform destroy has been executed. No more infra is exist on Dev Env'
+                }
+             }
+           }
