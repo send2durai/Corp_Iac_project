@@ -44,26 +44,10 @@ pipeline {
            }
         }
         
-        stage ("Linux and AWS CLI checking") {
+        stage ("Sending Slack Notifications") {
             steps {
-                echo "This AWS CLI performing some basics"
-                sh '''
-                pwd
-                whoami
-                w 
-                nslookup google.com
-                nslookup amazon.com | grep 'Address'
-                nslookup amazon.com | grep 'Name'
-                curl http://169.254.169.254/latest/meta-data
-                sleep 3
-                curl http://169.254.169.254/latest/meta-data/hostname
-                sleep 3
-                curl http://169.254.169.254/latest/meta-data/iam
-                sleep 3
-                curl http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2-admin-role
-                sleep 3
-                echo 'completed all steps in stages what we specified'
-               '''
+                slackSend channel: '#iac-aws-notifications',
+                          message: 'The Job is succeed'
             }
           }
     }
