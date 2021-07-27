@@ -44,9 +44,11 @@ pipeline {
            }
         }
 
-        stage ("Sending Slack Notifications on Destroy the INFRA") {
+        stage ("Sending Slack Notifications on Destroying INFRA") {
             steps {
-                slackSend channel: 'iac-aws-notifications', message: 'Terraform destroy has been executed. No more infra is exist on Dev Env'
+                echo "Going to destroy the Developement Infrastructure that provisioned in AWS"
+                sh 'sleep 3'
+                slackSend channel: 'iac-aws-notifications', message: 'Terraform destroy has been executed. AWS DEV environment has been deleted successfully'
             }
         }
     }
