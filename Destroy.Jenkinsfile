@@ -1,10 +1,8 @@
-
-
 pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Checkout the github repo') {
             steps {
             checkout([$class: 'GitSCM', branches: [[name: 'main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/send2durai/Corp_Iac_project.git']]])
 
@@ -13,42 +11,43 @@ pipeline {
 
         stage ("terraform init") {
             steps {
-                echo "Going to initialise the terraform module and download the plugin"
+                echo "Going to initialise the terraform module and download the required plugin"
                 sh 'terraform init'
             }
         }
 
         stage("terraform validate") {
             steps {
-                echo"Going to validate the code written in HCL"
+                echo"Going to validates the configuration files in a directory"
                 sh 'terraform validate'
             }
         }
 
         stage("terraform fmt") {
             steps {
-                echo "Going to perform the teraform files"
+                echo "Going to rewrite Terraform configuration files to a canonical format and style"
                 sh 'terraform fmt'
             }
         }
 
         stage("terraform plan") {
             steps {
-                echo "Going to show us, what is going to be spin up"
+                echo "Going to evaluates a Terraform configuration to determine the desired state of all the resources it declares"
                 sh 'terraform plan'
            }
         }
 
-        stage("terraform destroy") {
+        stage("terraform apply") {
             steps {
-                echo "Going to show us, what is going to be spin up"
-                sh 'terraform destroy --auto-approve'
+                echo "Going to executes the actions proposed in a Terraform plan"
+                sh 'terraform apply --auto-approve'
            }
         }
-        
-        stage("Slack Notification on Infra Destroy")
+
+        stage ("Sending Slack Notifications") {
             steps {
                 slackSend channel: 'iac-aws-notifications', message: 'Terraform destroy has been executed. No more infra is exist on Dev Env'
-                }
-             }
-           }
+            }
+        }
+    }
+}
