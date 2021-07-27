@@ -43,11 +43,11 @@ pipeline {
                 sh 'terraform apply --auto-approve'
            }
         }
-        
+
         stage ("Sending Slack Notifications") {
             steps {
                 slackSend channel: 'iac-aws-notifications', message: 'Terraform apply has been executed. Infra is provisioned on Dev Env'
             }
-          }
+        }
     }
 }
