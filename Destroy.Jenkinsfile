@@ -44,7 +44,7 @@ pipeline {
            }
         }
 
-        stage ("Sending Slack Notifications") {
+        stage ("Sending Slack Notifications on Destroy the INFRA") {
             steps {
                 slackSend channel: 'iac-aws-notifications', message: 'Terraform destroy has been executed. No more infra is exist on Dev Env'
             }
