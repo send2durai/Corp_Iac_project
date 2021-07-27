@@ -44,9 +44,10 @@ pipeline {
            }
         }
 
-        stage ("Sending Slack Notifications") {
+        stage ("Sending Slack Notification on Building INFRA") {
             steps {
-                slackSend channel: 'iac-aws-notifications', message: 'Terraform apply has been executed. Infra is provisioned on Dev Env'
+                sh 'sleep 3'
+                slackSend channel: 'iac-aws-notifications', message: 'Terraform apply command has been executed. AWS DEV Environment has been build"
             }
         }
     }
