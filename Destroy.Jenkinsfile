@@ -39,17 +39,20 @@ pipeline {
 
         stage("terraform destroy") {
             steps {
-                echo "Going to executes the actions proposed in a Terraform plan"
+                echo "Going to delete the infrastructure in the desire state"
                 sh 'terraform destroy --auto-approve'
            }
         }
-
-        stage ("Sending Slack Notification on Destroying INFRA") {
-            steps {
-                echo "Going to destroy the Developement Infrastructure that provisioned in AWS"
-                sh 'sleep 3'
-                slackSend channel: 'iac-aws-notifications', message: 'Terraform destroy command has been executed. AWS DEV environment has been deleted successfully'
-            }
-        }
+    }
+    post {
+      always {
+        echo 'Hello, finally sending the Job status to the Slack Channel always'
+      }
+      failure {
+        slackSend channel: 'iac-aws-notifications', message: 'Job has failed. DevOps team, please take a look'
+      }
+      success {
+        slackSend channel: 'iac-aws-notifications', message: 'Job has succeed. DevOps team, verify'
+      }
     }
 }
