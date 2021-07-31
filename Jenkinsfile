@@ -47,8 +47,19 @@ pipeline {
         stage ("Sending Slack Notification on Building INFRA") {
             steps {
                 sh 'sleep 3'
-                slackSend channel: 'iac-aws-notifications', message: 'Terraform apply command has been executed. AWS DEV Environment has been build'
+
             }
         }
+    }
+    post {
+      always {
+        echo 'Hello, finally sending the Job status to the Slack Channel always'
+      }
+      failure {
+        slackSend channel: 'iac-aws-notifications', message: 'Job has failed. DevOps team, please take a look'
+      }
+      success {
+        slackSend channel: 'iac-aws-notifications', message: 'Job has succeed. DevOps team, verify'
+      }
     }
 }
