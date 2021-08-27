@@ -1,0 +1,15 @@
+#### httpd uninstalling/deleting /www/html directory.
+---
+  - name: Going to un-install httpd package
+    hosts: localhost
+    become: yes
+    tasks:
+      - name: YUM package removal
+        yum:
+          name: httpd
+          state: absent
+      - name: DELETE /www/html directory, POST removal of httpd package
+        file:
+          path: /var/www/html
+          state: absent
+...
