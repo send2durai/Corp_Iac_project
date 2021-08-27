@@ -1,21 +1,19 @@
 ### Ansible playbook to install apache on remote nodes and service starting
 
 ---
-  - name: Playbook for installing apache on remote nodes
+  - name: Installing Apache
     hosts: localhost
     tasks:
-      - name: Installing yum package on CentOS or Linux Nodes
+      - name: Installing httpd packages
         yum:
-          name: httpd
+          name: httpd 
           state: present
-      
-
-
-
-
-
-
-
-
-
-
+      - name: Copying index_file
+        copy:
+          src: /home/centos/index.html
+          dest: /var/www/html/index.html
+      - name: Going to restart apache services
+        service:
+          name: httpd
+          state: restarted
+...
